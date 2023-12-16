@@ -1,109 +1,90 @@
 ﻿using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Channels;
+using System.Xml.Linq;
 
 namespace FinalProject.Modul._7
 {
-    internal class Programm
-    {
-        static void Main(string[] args)
-        {
-                        
-           
-        }
-    }
-    abstract class Delivery 
+    
+    abstract class Delivery
     {
         public string Address;
+    }
 
-        public string NameProduct;
-
-        public string[] IsAdress = { "Moscow", "Kalinigrad", "Sankt-Peterburg" };
-
-        public string[] NameProductInMagazine = { "Computer" , "Game" , "Mouse"};
-        public virtual bool IsDelivery { get; set; }
-
-        public virtual string IsProduct { get; set; }
-
+    abstract class DeliveryRegoin : Delivery
+    {
+        public string[] Region = { "Moscow region", "Yaroslavl region", "Kalininrad region" };
         
     }
 
+    abstract class DeliveryCity : DeliveryRegoin
+    {
+        public string[] CityInMoscowRegion = { "Moscow" , "Himki" , "Podolsk" };
+        public string[] CityInYaroslavlRegion = { "Yaroslavl", "Ribinsk", "Danilov" };
+        public string[] CityInKaliningradRegion = { "Kaliningrad", "Gvardeysk", "Baltiysk" };
+    }
+
+    
+
     class HomeDelivery : Delivery
     {
-        private bool Courier;
-        public override bool IsDelivery
-        {
-            get { return Courier; }
-            set 
-            {
-                if (IsAdress.Contains(Address))
-                    Console.WriteLine("Заказ принят в работу");
-                
-                else
-                    Console.WriteLine("Нет курьра в данном регионе");
-
-                Courier = value;
-            }
-        }
+       
     }
 
     class PickPointDelivery : Delivery
     {
-        private bool PickPoint;
-        public override bool IsDelivery
-        {
-            get { return PickPoint; }
-            set
-            {
-                if (IsAdress.Contains(Address))
-                    Console.WriteLine("Заказ принят в работу");
-
-                else
-                    Console.WriteLine("Нет пункта выдачи в данном регионе");
-
-                PickPoint = value;
-            }
-        }
+        /* ... */
     }
 
     class ShopDelivery : Delivery
     {
-
-        private string Product;
-        public override string IsProduct 
-        {
-        get
-            { return Product; }
-
-            set
-            {
-                if (NameProductInMagazine.Contains(NameProduct))
-                    Console.WriteLine("Вы добавили {0} в корзину" , NameProduct);
-                NameProduct = value;
-            }
-        
-        }
-
+        /* ... */
     }
 
-    class Order<TDelivery,
-    TStruct> where TDelivery : Delivery
+    class DeliveryInfo : DeliveryCity
+    {
+        public DeliveryInfo()
+        {
+            Console.WriteLine("Добро пожаловать в магазин \n сначала посмотри  город , куда возможна доставка");
+            Console.Write("Города в московской области: ");
+            foreach (var CityInMoscow in CityInMoscowRegion)
+            {
+                Console.Write(CityInMoscow + "  ");
+            }
+            Console.WriteLine();
+            Console.Write("Города Ярославской области: ");
+            foreach (var CityInYaroslavl in CityInYaroslavlRegion)
+            {
+                Console.Write(CityInYaroslavl + "  ");
+            }
+            Console.WriteLine();
+            Console.Write("Города Калиниградской области:");
+            foreach (var CityInKaliningrad in CityInKaliningradRegion)
+            {
+                Console.Write(CityInKaliningrad + "  ");
+            }
+
+
+
+
+        }
+    }
+    class Order<TDelivery> where TDelivery : Delivery
     {
         public TDelivery Delivery;
 
-        public int Number;
-
-        public string Description;
-
-        
-
-        public void DisplayAddress()
-        {
-            Console.WriteLine(Delivery.Address);
-        }
        
-        
-
-        
+        // ... Другие поля
     }
+
+    internal class Programm
+    {
+        static void Main(string[] args)
+        {
+            DeliveryInfo CityInfo = new DeliveryInfo();
+            Console.WriteLine(CityInfo);
+        }
+    }
+
+
 }
