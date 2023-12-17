@@ -3,23 +3,27 @@
 namespace FinalProject.Modul._7
 {
 
+    
+    
     abstract class DeliveryInfo
     {
         public string Adress;
-        public string CityAdress;
+        public string CityAdress { get; set; }
         public string[] CartAdd;
        
-        public static string[] City = { "Moscow", "Kaluga", "Kaliningrad" };
-        public static string[] Cart = { "Mouse", "KeyBoard", "MotherBoard", "Computer" };
+        public  string[] City = { "Moscow", "Kaluga", "Kaliningrad", "Sankt-Peterburg" , "Yaroslavl" };
+        public  string[] Cart = { "Mouse", "KeyBoard", "MotherBoard", "Computer" };
        
     }
+    
     abstract class Delivery : DeliveryInfo
     {
-        public abstract void DeliveryToAdress(in int adress, out bool IsDelivery);
+        public abstract void DeliveryToAdress();
         public bool IsDelivery;
     }
     abstract class DeliveryCartInfo : DeliveryInfo
     {
+        //Логика заполенния массива CartInfo не написанна 
          public string[] CartInfo;
         bool IsAddCart= false;
         
@@ -72,7 +76,7 @@ namespace FinalProject.Modul._7
    
     class HomeDelivery : Delivery
     {
-        public override void DeliveryToAdress(in int adress, out bool IsDelivery)
+        public override void DeliveryToAdress()
         {
             if (City.Contains(CityAdress))
             {
@@ -92,7 +96,7 @@ namespace FinalProject.Modul._7
     {
         
         
-        public override void DeliveryToAdress(in int adress, out bool IsDelivery)
+        public override void DeliveryToAdress()
         {
           
             if (City.Contains(CityAdress))
@@ -111,7 +115,7 @@ namespace FinalProject.Modul._7
     class ShopDelivery : Delivery
     {
         private string[] DeliveryShop = { "Moscow", "Sankt-Peterburg", "Yaroslavl" };
-        public override void DeliveryToAdress(in int adress, out bool IsDelivery)
+        public override void DeliveryToAdress()
         {
             if (DeliveryShop.Contains(CityAdress))
             {
@@ -128,21 +132,56 @@ namespace FinalProject.Modul._7
     
 
     class Order<TDelivery,
-    TStruct> where TDelivery : Delivery
+    TStruct> where TDelivery : DeliveryInfo
     {
         public TDelivery Delivery;
+        public TStruct Struct;
 
         public int Number;
 
         public string Description;
 
-        public string[] CityAdress;
+       
+        
+       
 
         public void DipslpayInfo()
         {
-            Console.WriteLine(Delivery.Adress);
+            Console.WriteLine("Города для доставки ");
+
+            foreach (var item in Delivery.City)
+            {
+                Console.Write(item + "  ");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Доступные товаы ");
+
+            foreach (var item in Delivery.Cart)
+            {
+                Console.Write(item + " \t");
+            }
+            
         }
-         
+
+        public void InfoFromConsole()
+        {
+            Console.Write("В какой город нужна доставка:  ");
+            Delivery.CityAdress = Console.ReadLine();
+
+            Console.WriteLine("Какой доставкой возсользуетесь \nКурьер  ,  Пункт выдачи   ,   Самовывоз");
+            string DeliveryInPerson = Console.ReadLine();
+
+            switch (DeliveryInPerson)
+            {
+                case "Курьер":
+                    HomeDelivery homeDelivery = new HomeDelivery();
+                    homeDelivery.DeliveryToAdress();
+                break;
+            }
+
+        }
+        
+       
     }
 
     internal class Programm
@@ -165,8 +204,12 @@ namespace FinalProject.Modul._7
             order1.Delivery = homeDelivery;
             order1.Number = 1;
             order1.Description = "ABC";
+            
+            
+            order1.DipslpayInfo();
 
-            order1.Display
+            order1.InfoFromConsole();
+
 
         }
     }
