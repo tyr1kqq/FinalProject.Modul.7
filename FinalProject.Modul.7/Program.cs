@@ -166,15 +166,18 @@ namespace FinalProject.Modul._7
         public void InfoFromConsole()
         {
             Console.Write("В какой город нужна доставка:  ");
-            Delivery.CityAdress = Console.ReadLine();
+            var OrderCity = Delivery.CityAdress;
+            OrderCity = Console.ReadLine();
 
             Console.WriteLine("Какой доставкой возсользуетесь \nКурьер  ,  Пункт выдачи   ,   Самовывоз");
+
             string DeliveryInPerson = Console.ReadLine();
 
             switch (DeliveryInPerson)
             {
                 case "Курьер":
                     HomeDelivery homeDelivery = new HomeDelivery();
+                    homeDelivery.CityAdress = OrderCity;
                     homeDelivery.DeliveryToAdress();
                 break;
             }
