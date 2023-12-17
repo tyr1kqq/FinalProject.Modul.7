@@ -30,6 +30,7 @@ namespace FinalProject.Modul._7
 
         public void InfoFromConsole()
         {
+            //основа для добавления в корзину товаров (не реализована)
             if (CartInfo == null)
             {
                 Console.WriteLine("Ваша корзина пуста , хотите что-то добвить?\nYes or No...");
@@ -77,6 +78,7 @@ namespace FinalProject.Modul._7
     class HomeDelivery : Delivery
     {
         public override void DeliveryToAdress()
+        //метод для проверки возможности доставки в город (По задумке , все адреса доступны для доставки)
         {
             if (City.Contains(CityAdress))
             {
@@ -98,6 +100,7 @@ namespace FinalProject.Modul._7
         
         public override void DeliveryToAdress()
         {
+           //метод для проверки возможности доставки в город (По задумке , все адреса доступны для доставки)
           
             if (City.Contains(CityAdress))
             {
@@ -114,9 +117,11 @@ namespace FinalProject.Modul._7
 
     class ShopDelivery : Delivery
     {
+        //добавил другие города для доставки
         private string[] DeliveryShop = { "Moscow", "Sankt-Peterburg", "Yaroslavl" };
         public override void DeliveryToAdress()
         {
+            //метод для проверки возможности доставки в город (По задумке , все адреса доступны для доставки)
             if (DeliveryShop.Contains(CityAdress))
             {
                 Console.WriteLine("Доставка в ваш город возможна\nНачинаем оформление и доставку заказа");
@@ -165,6 +170,7 @@ namespace FinalProject.Modul._7
 
         public void InfoFromConsole()
         {
+            //Метод для проверки работы (при необходимости будет дорабатываться)
             Console.Write("В какой город нужна доставка:  ");
             var OrderCity = Delivery.CityAdress;
             OrderCity = Console.ReadLine();
@@ -191,27 +197,23 @@ namespace FinalProject.Modul._7
     {
         static void Main(string[] args)
         {
+            //В Маин методе временные строки для проверки и возможной доработки
           HomeDelivery homeDelivery = new HomeDelivery();
-            homeDelivery.CityAdress = "Moscow";
-            homeDelivery.Adress = "Pushkina 10";
+         
 
             PickPointDelivery pickPointDelivery = new PickPointDelivery();
-            pickPointDelivery.CityAdress = "Kazan";
-            homeDelivery.Adress = "Gagarina 2";
+         
 
             ShopDelivery shopDelivery = new ShopDelivery();
-            shopDelivery.CityAdress = "Sankt-Peterburg";
-            shopDelivery.Adress = "Moskovskiy prospekt 49";
+        
 
-            Order<HomeDelivery , string> order1 = new Order<HomeDelivery , string>();
-            order1.Delivery = homeDelivery;
-            order1.Number = 1;
-            order1.Description = "ABC";
+            Order<HomeDelivery , string> order = new Order<HomeDelivery , string>();
             
             
-            order1.DipslpayInfo();
+            
+            order.DipslpayInfo();
 
-            order1.InfoFromConsole();
+            order.InfoFromConsole();
 
 
         }
